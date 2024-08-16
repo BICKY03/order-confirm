@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmed</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.4/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .confirmation-box {
+            border: 1px solid #e5e7eb;
+            padding: 16px;
+            background-color: #f9fafb;
+            margin-top: 16px;
+        }
+        .order-summary-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+        }
+        .order-summary-item img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+        .confirmation-heading {
+            color: #6b7280; /* Gray color */
+            font-size: 1.5rem; /* Smaller text size */
+        }
+        .confirmation-text {
+            font-size: 2rem; /* Larger text size */
+            margin-top: 8px;
+            padding-left: 30px;
+        }
+        .checkmark {
+            color: #4caf50; /* Green color for check mark */
+            font-size: 2rem; /* Size of the check mark */
+            margin-right: 8px;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-top: 12px;
+        }
+        .checkbox-label {
+            margin-left: 8px;
+            font-weight: bold;
+        }
+        .checkbox-input {
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 md:p-6 lg:p-10">
+    <div class="flex flex-col lg:flex-row lg:justify-center">
+        <div class="bg-white p-6 rounded shadow-lg w-full lg:w-3/4 flex flex-col lg:flex-row">
+            <!-- Left Side: Order Details -->
+            <div class="w-full lg:w-2/3 lg:pr-6">
+                <h1 class="text-2xl lg:text-3xl font-bold mb-4 lg:mb-6 text-green-500 flex items-center">
+                    <span class="checkmark">&#10003;</span>
+                    <span class="confirmation-heading">Confirmation #QVLHADD5</span>
+                </h1>
+                <h2 class="confirmation-text text-lg lg:text-2xl">Thank you, Joti</h2>
+
+                <!-- New Confirmation Box -->
+                <div class="confirmation-box">
+                    <p>Your order is confirmed.</p>
+                    <p>You will receive a confirmation email with your order number shortly.</p>
+                    <div class="checkbox-container">
+                        <input type="checkbox" id="emailUpdates" class="checkbox-input">
+                        <label for="emailUpdates" class="checkbox-label">Email me with news and offers</label>
+                    </div>
+                </div>
+
+                <!-- Order Summary Box -->
+                <div class="confirmation-box">
+                    <h2 class="text-xl lg:text-2xl font-bold mb-4">Order Summary</h2>
+                    <div id="orderSummary">
+                        <!-- Order summary details will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Shipping Details Box -->
+                <div class="confirmation-box">
+                    <h2 class="text-xl lg:text-2xl font-bold mb-4">Shipping Details</h2>
+                    <div id="shippingDetails">
+                        <!-- Shipping details will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Billing Address Box -->
+                <div class="confirmation-box">
+                    <h2 class="text-xl lg:text-2xl font-bold mb-4">Billing Address</h2>
+                    <div id="billingAddress">
+                        <!-- Billing address will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Payment Method Box -->
+                <div class="confirmation-box">
+                    <h2 class="text-xl lg:text-2xl font-bold mb-4">Payment Method</h2>
+                    <div id="paymentMethod">
+                        <!-- Payment method details will be inserted here -->
+                    </div>
+                </div>
+                
+                <p class="text-sm text-gray-600 mt-4">We have sent a confirmation email to your registered email.</p>
+            </div>
+
+            <!-- Right Side: Product Images and Summary Totals -->
+            <div class="w-full lg:w-1/3 lg:pl-6 mt-6 lg:mt-0">
+                <h2 class="text-xl lg:text-2xl font-bold mb-4">Products</h2>
+                <div id="productImages" class="order-summary-container">
+                    <!-- Product images will be inserted here -->
+                </div>
+
+                <h2 class="text-xl lg:text-2xl font-bold mt-6 mb-4">Order Totals</h2>
+                <div class="summary-totals text-right">
+                    <div class="flex justify-between border-b pb-2 mb-2">
+                        <span>Subtotal:</span>
+                        <span>$294.99</span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2 mb-2">
+                        <span>Shipping:</span>
+                        <span>$15.00</span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2 mb-2">
+                        <span>Taxes:</span>
+                        <span>$2.24</span>
+                    </div>
+                    <div class="flex justify-between font-bold">
+                        <span>Total:</span>
+                        <span>$312.23</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('load', function() {
+            const orderData = {
+                checkout_id: "c456d2e7-45b3-492a-bdd3-8d8d234a670e",
+                created_at: "2024-08-13T12:34:56Z",
+                customer: {
+                    customer_id: "123456",
+                    first_name: "John",
+                    last_name: "Doe",
+                    email: "john.doe@example.com",
+                    phone: "+1234567890",
+                    shipping_address: {
+                        address_id: "654321",
+                        first_name: "John",
+                        last_name: "Doe",
+                        company: "Example Corp",
+                        address_line1: "123 Main St",
+                        address_line2: "Apt 4B",
+                        city: "New York",
+                        state: "NY",
+                        postal_code: "10001",
+                        country: "USA"
+                    },
+                    billing_address: {
+                        address_id: "654322",
+                        first_name: "John",
+                        last_name: "Doe",
+                        company: "Example Corp",
+                        address_line1: "123 Main St",
+                        address_line2: "Apt 4B",
+                        city: "New York",
+                        state: "NY",
+                        postal_code: "10001",
+                        country: "USA"
+                    }
+                },
+                cart: {
+                    items: [
+                        {
+                            item_id: "prod_001",
+                            product_name: "Wireless Headphones",
+                            quantity: 2,
+                            price: 99.99,
+                            discount: {
+                                type: "percentage",
+                                value: 10,
+                                applied_value: 19.998
+                            },
+                            tax: {
+                                type: "percentage",
+                                value: 8.875,
+                                applied_value: 14.135
+                            },
+                            total_price: 194.122,
+                            image: "image/download.jpeg" // Added image URL
+                        },
+                        {
+                            item_id: "prod_002",
+                            product_name: "Bluetooth Speaker",
+                            quantity: 1,
+                            price: 149.99,
+                            discount: {
+                                type: "fixed",
+                                value: 20.00,
+                                applied_value: 20.00
+                            },
+                            tax: {
+                                type: "percentage",
+                                value: 8.875,
+                                applied_value: 11.496
+                            },
+                            total_price: 141.486,
+                            image: "image/download (1).jpeg" // Added image URL
+                        }
+                    ],
+                    sub_total: 294.991,
+                    total_discount: 39.998,
+                    total_tax: 25.631,
+                    shipping_cost: 15.00,
+                    grand_total: 295.624
+                },
+                shipping_method: {
+                    method_id: "ship_001",
+                    method_name: "Standard Shipping",
+                    cost: 15.00,
+                    estimated_delivery: "2024-08-20T12:00:00Z"
+                },
+                payment_method: {
+                    method_id: "pay_001",
+                    method_name: "Credit Card",
+                    transaction_id: "txn_789012",
+                    payment_status: "Authorized",
+                    amount: 295.624,
+                    currency: "USD"
+                },
+                discounts_applied: [
+                    {
+                        discount_id: "disc_001",
+                        type: "percentage",
+                        description: "Summer Sale - 10% off on Wireless Headphones",
+                        value: 10,
+                        applied_value: 19.998
+                    },
+                    {
+                        discount_id: "disc_002",
+                        type: "fixed",
+                        description: "Loyalty Discount - $20 off on Bluetooth Speaker",
+                        value: 20.00,
+                        applied_value: 20.00
+                    }
+                ],
+                tax_details: [
+                    {
+                        tax_id: "tax_001",
+                        type: "sales_tax",
+                        description: "State Sales Tax",
+                        rate: 8.875,
+                        applied_value: 25.631
+                    }
+                ],
+                order_notes: "Please leave the package at the front door.",
+                status: "Pending",
+                updated_at: "2024-08-13T12:45:00Z"
+            };
+
+            // Populate Order Summary with Product Images
+            const orderSummary = document.getElementById('orderSummary');
+            const productImages = document.getElementById('productImages');
+            orderData.cart.items.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('order-summary-item');
+                itemDiv.innerHTML = `
+                    <img src="${item.image}" alt="${item.product_name}">
+                    <span>${item.product_name} (x${item.quantity})</span>
+                    <span>$${item.total_price.toFixed(2)}</span>
+                `;
+                productImages.appendChild(itemDiv);
+            });
+
+            // Populate Shipping Details
+            const shippingDetails = document.getElementById('shippingDetails');
+            shippingDetails.innerHTML = `
+                <div><strong>Method:</strong> ${orderData.shipping_method.method_name}</div>
+                <div><strong>Cost:</strong> $${orderData.shipping_method.cost.toFixed(2)}</div>
+                <div><strong>Estimated Delivery:</strong> ${new Date(orderData.shipping_method.estimated_delivery).toLocaleDateString()}</div>
+            `;
+
+            // Populate Billing Address
+            const billingAddress = document.getElementById('billingAddress');
+            billingAddress.innerHTML = `
+                <div><strong>Name:</strong> ${orderData.customer.billing_address.first_name} ${orderData.customer.billing_address.last_name}</div>
+                <div><strong>Address:</strong> ${orderData.customer.billing_address.address_line1}, ${orderData.customer.billing_address.address_line2}</div>
+                <div>${orderData.customer.billing_address.city}, ${orderData.customer.billing_address.state} ${orderData.customer.billing_address.postal_code}</div>
+                <div>${orderData.customer.billing_address.country}</div>
+            `;
+
+            // Populate Payment Method
+            const paymentMethod = document.getElementById('paymentMethod');
+            paymentMethod.innerHTML = `
+                <div><strong>Method:</strong> ${orderData.payment_method.method_name}</div>
+                <div><strong>Transaction ID:</strong> ${orderData.payment_method.transaction_id}</div>
+                <div><strong>Amount:</strong> $${orderData.payment_method.amount.toFixed(2)}</div>
+            `;
+        });
+    </script>
+</body>
+</html>
+
+
+
+

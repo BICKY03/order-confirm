@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment and Order Summary</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.4/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .error { color: red; font-size: 0.875rem; }
+        .hidden { display: none; }
+        .qty-background { 
+            background-color: #ACACAC; 
+            color: #f9f7f7; /* Set text color here */
+            padding: 2px 4px; 
+            border-radius: 4px; 
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 md:p-10">
+    <div class="flex flex-col md:flex-row justify-center gap-10">
+        <!-- Payment Section -->
+        <div class="bg-white p-6 rounded shadow-lg w-full md:w-1/2">
+            <h2 class="text-2xl font-bold mb-6">Payment</h2>
+            <form id="paymentForm">
+                <div class="mb-4">
+                    <label class="font-semibold block mb-2">Pay With:</label>
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <label class="flex items-center">
+                            <input type="radio" name="paymentType" id="paymentCard" value="Card" class="mr-2" required> Card
+                        </label>
+                        <label class="flex items-center">
+                            <input type="radio" name="paymentType" id="paymentCOD" value="COD" class="mr-2"> COD
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Card Details Section -->
+                <div id="cardDetails" class="mb-4 hidden">
+                    <label class="font-semibold block">Card Number</label>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 9101 1121" class="w-full p-2 border rounded">
+                    <p id="cardNumberError" class="error"></p>
+                </div>
+                <div id="cardDetailsFields" class="flex flex-col md:flex-row gap-4 mb-4 hidden">
+                    <div class="flex-1">
+                        <label class="font-semibold block">Expiration Date</label>
+                        <input type="text" id="expirationDate" placeholder="MM/YY" class="w-full p-2 border rounded">
+                        <p id="expirationDateError" class="error"></p>
+                    </div>
+                    <div class="flex-1">
+                        <label class="font-semibold block">CVV</label>
+                        <input type="text" id="cvv" placeholder="123" class="w-full p-2 border rounded">
+                        <p id="cvvError" class="error"></p>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <label class="flex items-center">
+                        <input type="checkbox" id="saveCardDetails" class="mr-2"> Save Card Details
+                    </label>
+                </div>
+                <button type="submit" id="payButton" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full">
+                    Pay USD59.28
+                </button>
+                
+                <p class="text-sm text-gray-600 mt-4">
+                    Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy.
+                </p>
+            </form>
+        </div>
+        
+        <!-- Order Summary Section -->
+        <div class="bg-white p-6 rounded shadow-lg w-full md:w-1/3">
+            <h2 class="text-2xl font-bold mb-6">Order Summary</h2>
+            
+            <!-- Order Items -->
+            <div id="orderItems">
+                <div class="flex flex-col md:flex-row mb-4 border-b pb-4">
+                    <img src="image/download.jpeg" alt="Wireless Headphones" class="w-full md:w-16 lg:w-24 h-auto object-cover mb-4 md:mb-0 md:mr-4">
+                    <div class="flex-1">
+                        <div class="flex justify-between mb-2">
+                            <span>Wireless Headphones</span>
+                            <span>$194.12</span>
+                        </div>
+                        <div class="flex justify-end">
+                            <span class="text-gray-300">Qty: 2</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row mb-4 border-b pb-4">
+                    <img src="image/download (1).jpeg" alt="Bluetooth Speaker" class="w-full md:w-16 lg:w-24 h-auto object-cover mb-4 md:mb-0 md:mr-4">
+                    <div class="flex-1">
+                        <div class="flex justify-between mb-2">
+                            <span>Bluetooth Speaker</span>
+                            <span>$141.49</span>
+                        </div>
+                        <div class="flex justify-end">
+                            <span class="text-gray-300">Qty: 1</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Discount Section -->
+            <div class="mb-4">
+                <label class="font-semibold block mb-2">Discount Code:</label>
+                <div class="flex flex-col md:flex-row">
+                    <input type="text" id="discountCode" placeholder="Enter discount code" class="w-full p-2 border rounded mb-2 md:mb-0 md:mr-2">
+                    <button id="applyDiscount" class="qty-background hover:bg-gray-500 text-white font-bold py-2 px-4 rounded w-full md:w-auto">
+                        Apply
+                    </button>
+                </div>
+                <p id="discountError" class="error mt-2"></p>
+            </div>
+
+            <!-- Summary Totals -->
+            <div class="flex flex-col md:flex-row justify-between mb-4">
+                <span>Subtotal</span>
+                <span id="subtotal">$294.99</span>
+            </div>
+            <div class="flex flex-col md:flex-row justify-between mb-4">
+                <span>Shipping</span>
+                <span>$15.00</span>
+            </div>
+            <div class="flex flex-col md:flex-row justify-between mb-4">
+                <span>Taxes</span>
+                <span>$2.24</span>
+            </div>
+            <div class="flex flex-col md:flex-row justify-between mb-4 font-bold">
+                <span>Total</span>
+                <span id="total">$312.23</span>
+            </div>
+            <p class="pb-5 text-gray-600">Including $2.24 in taxes</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve saved card details from session storage
+            const savedCardDetails = JSON.parse(sessionStorage.getItem('cardDetails'));
+
+            if (savedCardDetails) {
+                document.getElementById('cardNumber').value = savedCardDetails.cardNumber || '';
+                document.getElementById('expirationDate').value = savedCardDetails.expirationDate || '';
+                document.getElementById('cvv').value = savedCardDetails.cvv || '';
+                document.getElementById('saveCardDetails').checked = savedCardDetails.saveCardDetails || false;
+            }
+
+            // Handle discount application
+            document.getElementById('applyDiscount').addEventListener('click', function() {
+                const discountCode = document.getElementById('discountCode').value.trim();
+                const discountError = document.getElementById('discountError');
+                let discountAmount = 0;
+                let isValidDiscount = false;
+                
+                // Sample JSON with discount data
+                const discountData = {
+                    "Summer Sale": { type: 'percent', amount: 10 }, // 10% discount
+                    "Loyalty Discount": { type: 'fixed', amount: 20 } // $20 discount
+                };
+
+                // Validate discount code
+                if (discountData.hasOwnProperty(discountCode)) {
+                    isValidDiscount = true;
+                    const discount = discountData[discountCode];
+                    const subtotal = parseFloat(document.getElementById('subtotal').textContent.replace('$', ''));
+                    const shippingCost = 15.00;
+                    const taxAmount = 2.24;
+
+                    if (discount.type === 'percent') {
+                        discountAmount = (subtotal * discount.amount) / 100;
+                    } else if (discount.type === 'fixed') {
+                        discountAmount = discount.amount;
+                    }
+
+                    // Update total with discount
+                    const newTotal = subtotal + shippingCost + taxAmount - discountAmount;
+                    document.getElementById('total').textContent = `$${newTotal.toFixed(2)}`;
+                } else {
+                    discountError.textContent = 'Invalid discount code.';
+                }
+
+                if (!isValidDiscount) {
+                    document.getElementById('discountCode').value = '';
+                }
+            });
+
+            // Show card details section based on payment type
+            document.querySelectorAll('input[name="paymentType"]').forEach((input) => {
+                input.addEventListener('change', function() {
+                    const cardDetails = document.getElementById('cardDetails');
+                    const cardDetailsFields = document.getElementById('cardDetailsFields');
+
+                    if (this.value === 'Card') {
+                        cardDetails.classList.remove('hidden');
+                        cardDetailsFields.classList.remove('hidden');
+                    } else {
+                        cardDetails.classList.add('hidden');
+                        cardDetailsFields.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Handle form submission
+            document.getElementById('paymentForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+
+                // Basic validation
+                const cardNumber = document.getElementById('cardNumber').value;
+                const expirationDate = document.getElementById('expirationDate').value;
+                const cvv = document.getElementById('cvv').value;
+
+                let valid = true;
+
+                // Clear previous errors
+                document.getElementById('cardNumberError').textContent = '';
+                document.getElementById('expirationDateError').textContent = '';
+                document.getElementById('cvvError').textContent = '';
+
+                if (document.getElementById('paymentCard').checked) {
+                    if (cardNumber.length !== 16) {
+                        document.getElementById('cardNumberError').textContent = 'Card number must be exactly 16 digits.';
+                        valid = false;
+                    }
+                    if (expirationDate.split('/').length !== 2 || isNaN(Date.parse('01/' + expirationDate))) {
+                        document.getElementById('expirationDateError').textContent = 'Invalid expiration date.';
+                        valid = false;
+                    }
+                    if (cvv.length !== 3 || isNaN(cvv)) {
+                        document.getElementById('cvvError').textContent = 'CVV must be exactly 3 numeric digits.';
+                        valid = false;
+                    }
+                }
+
+                if (valid) {
+                    // Save card details to session storage if checkbox is checked
+                    if (document.getElementById('saveCardDetails').checked) {
+                        const cardDetails = {
+                            cardNumber,
+                            expirationDate,
+                            cvv,
+                            saveCardDetails: true
+                        };
+                        sessionStorage.setItem('cardDetails', JSON.stringify(cardDetails));
+                    }
+
+                    // Redirect to order confirmation page
+                    window.location.href = 'order-confirmed.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
